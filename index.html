@@ -565,7 +565,7 @@ button,.btn{position:relative;overflow:hidden;transition:transform .25s var(--sa
     if(!sessionRunning){startedAt=Date.now();sessionRunning=true;}
     beginTick();updateTimer();
     try{await video().play();}catch(e){console.warn('Could not play meditation/background.mp4. Check that meditation/background.mp4 exists and is a supported video format.',e);}
-    try{await audio().play();}catch(e){console.warn('Could not play the meditation music file: Lofi Version Bajrang Baan (बजरंग बाण) With Lyrics - Rasraj Ji Maharaj @lofibhajans.mp3. Check the path and MP3 format.',e);alert('Meditation audio could not play. Check that the music file 'Lofi Version Bajrang Baan (बजरंग बाण) With Lyrics - Rasraj Ji Maharaj @lofibhajans.mp3' exists inside the meditation folder and is a supported MP3 file.');}
+    try{await audio().play();}catch(e){console.warn('Could not play the meditation music file: Lofi Version Bajrang Baan (बजरंग बाण) With Lyrics - Rasraj Ji Maharaj @lofibhajans.mp3. Check the path and MP3 format.',e);alert("Meditation audio could not play. Check that the music file ‘Lofi Version Bajrang Baan (बजरंग बाण) With Lyrics - Rasraj Ji Maharaj @lofibhajans.mp3’ exists inside the meditation folder and is a supported MP3 file.");}
   };
   window.pauseMeditationSession=function(){pauseInternal();};
   window.resumeMeditationSession=function(){window.startMeditationSession();};
@@ -574,6 +574,10 @@ button,.btn{position:relative;overflow:hidden;transition:transform .25s var(--sa
     try{video().currentTime=0;}catch(e){}
     try{audio().currentTime=0;}catch(e){}
   };
+  video().addEventListener('error',function(){
+    const note=room().querySelector('.sa-med-note');
+    if(note)note.innerHTML='Video not found. Upload your video to the <b>meditation</b> folder and name it <b>background.mp4</b>. The meditation room will still open.';
+  });
   document.addEventListener('keydown',function(e){
     if(e.key==='Escape'&&room().classList.contains('sa-meditation-open'))window.closeMeditationRoom();
   });
